@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quitanda_app/src/config/custom_colors.dart';
+import 'package:quitanda_app/src/pages/auth/controller/auth_controller.dart';
 import 'package:quitanda_app/src/pages/common_widgets/app_name_widget.dart';
 import 'package:quitanda_app/src/pages_routes/app_pages.dart';
 import '../common_widgets/custom_text_field.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
+  SignInPage({super.key});
+  final _formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,92 +64,143 @@ class SignInPage extends StatelessWidget {
                     color: Colors.white,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(50.0))),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Email text field
-                    const CustomTextField(
-                      icon: Icons.email,
-                      label: 'Email',
-                    ),
-                    // Password text field
-                    const CustomTextField(
-                      icon: Icons.lock,
-                      label: 'Password',
-                      isSecret: true,
-                    ),
-                    // Sign in button
-                    SizedBox(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Email text field
+                      CustomTextField(
+                        icon: Icons.email,
+                        label: 'Email',
+                        controller: emailController,
+                        validator: (email) {
+                          if (email == null || email.isEmpty) {
+                            return 'Email is required';
+                          }
+
+                          if (!email.isEmail) {
+                            return 'Invalid email';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      // Password text field
+                      CustomTextField(
+                        icon: Icons.lock,
+                        label: 'Password',
+                        isSecret: true,
+                        controller: passwordController,
+                        validator: (password) {
+                          if (password == null || password.isEmpty) {
+                            return 'Password is required';
+                          }
+
+                          if (password.length < 7) {
+                            return 'Password must have at least 7 characters';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      // Sign in button
+                      SizedBox(
+                          height: 50.0,
+                          child: GetX<AuthController>(
+                            builder: (authController) {
+                              return ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(18.0))),
+                                  onPressed: authController.isLoading.value
+                                      ? null
+                                      : () {
+                                          FocusScope.of(context).unfocus();
+
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            String email = emailController.text;
+                                            String password =
+                                                passwordController.text;
+
+                                            authController.signIn(
+                                              email: email,
+                                              password: password,
+                                            );
+                                          }
+
+                                          //   Get.offNamed(PagesRoutes.baseRoute);
+                                        },
+                                  child: authController.isLoading.value
+                                      ? const CircularProgressIndicator()
+                                      : const Text(
+                                          'Sign in',
+                                          style: TextStyle(
+                                              fontSize: 18.0,
+                                              color: Colors.white),
+                                        ));
+                            },
+                          )),
+                      // Forgot password
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Forgot password?',
+                              style: TextStyle(
+                                  color: CustomColors.customContrastColor),
+                            )),
+                      ),
+                      // Divider
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                color: Colors.grey.withAlpha(90),
+                                thickness: 1.0,
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 15.0),
+                              child: Text(
+                                'Or',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                color: Colors.grey.withAlpha(90),
+                                thickness: 1.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Sign up button
+                      SizedBox(
                         height: 50.0,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
+                        child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0))),
+                                    borderRadius: BorderRadius.circular(18.0)),
+                                side: BorderSide(
+                                    width: 2.0,
+                                    color: CustomColors.customSwatchColor)),
                             onPressed: () {
-                              Get.offNamed(PagesRoutes.baseRoute);
+                              Get.toNamed(PagesRoutes.signUpRoute);
                             },
                             child: const Text(
-                              'Sign in',
-                              style: TextStyle(
-                                  fontSize: 18.0, color: Colors.white),
-                            ))),
-                    // Forgot password
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Forgot password?',
-                            style: TextStyle(
-                                color: CustomColors.customContrastColor),
-                          )),
-                    ),
-                    // Divider
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey.withAlpha(90),
-                              thickness: 1.0,
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15.0),
-                            child: Text(
-                              'Or',
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey.withAlpha(90),
-                              thickness: 1.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Sign up button
-                    SizedBox(
-                      height: 50.0,
-                      child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18.0)),
-                              side: BorderSide(
-                                  width: 2.0,
-                                  color: CustomColors.customSwatchColor)),
-                          onPressed: () {
-                            Get.toNamed(PagesRoutes.signUpRoute);
-                          },
-                          child: const Text(
-                            'Sign up',
-                            style: TextStyle(fontSize: 18.0),
-                          )),
-                    )
-                  ],
+                              'Sign up',
+                              style: TextStyle(fontSize: 18.0),
+                            )),
+                      )
+                    ],
+                  ),
                 ),
               )
             ],
