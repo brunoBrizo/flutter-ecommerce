@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:quitanda_app/src/config/custom_colors.dart';
-import 'package:quitanda_app/src/pages/auth/sign_in_page.dart';
 import 'package:quitanda_app/src/pages/common_widgets/app_name_widget.dart';
+import 'package:quitanda_app/src/pages_routes/app_pages.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -16,11 +17,9 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     Future.delayed(
         const Duration(
-          milliseconds: 2500,
+          milliseconds: 2000,
         ), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (c) {
-        return const SignInPage();
-      }));
+      Get.offNamed(PagesRoutes.signInRoute);
     });
   }
 

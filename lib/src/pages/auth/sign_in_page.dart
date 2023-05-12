@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quitanda_app/src/pages/auth/sign_up_page.dart';
-import 'package:quitanda_app/src/pages/base/base_page.dart';
+import 'package:get/get.dart';
 import 'package:quitanda_app/src/config/custom_colors.dart';
 import 'package:quitanda_app/src/pages/common_widgets/app_name_widget.dart';
+import 'package:quitanda_app/src/pages_routes/app_pages.dart';
 import '../common_widgets/custom_text_field.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
@@ -82,10 +82,7 @@ class SignInPage extends StatelessWidget {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18.0))),
                             onPressed: () {
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(builder: (c) {
-                                return const BasePage();
-                              }));
+                              Get.offNamed(PagesRoutes.baseRoute);
                             },
                             child: const Text(
                               'Sign in',
@@ -141,10 +138,7 @@ class SignInPage extends StatelessWidget {
                                   width: 2.0,
                                   color: CustomColors.customSwatchColor)),
                           onPressed: () {
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (c) {
-                              return SignUpPage();
-                            }));
+                            Get.toNamed(PagesRoutes.signUpRoute);
                           },
                           child: const Text(
                             'Sign up',
