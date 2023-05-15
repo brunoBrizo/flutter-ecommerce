@@ -1,4 +1,4 @@
-# quitanda_app
+# Flutter eCommerce
 
 A new Flutter project.
 

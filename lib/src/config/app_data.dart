@@ -91,6 +91,7 @@ UserModel user = UserModel(
   phone: '099057586',
   id: '87129418087',
   password: '123asd',
+  token: '2323232',
 );
 
 List<OrderModel> orders = [

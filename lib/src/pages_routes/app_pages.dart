@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:quitanda_app/src/pages/auth/sign_in_page.dart';
-import 'package:quitanda_app/src/pages/auth/sign_up_page.dart';
+import 'package:quitanda_app/src/pages/auth/view/sign_in_page.dart';
+import 'package:quitanda_app/src/pages/auth/view/sign_up_page.dart';
 import 'package:quitanda_app/src/pages/base/base_page.dart';
 import 'package:quitanda_app/src/pages/splash/splash_page.dart';
 
