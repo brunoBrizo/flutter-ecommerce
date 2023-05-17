@@ -7,6 +7,7 @@ import 'package:quitanda_app/src/pages/common_widgets/custom_text_field.dart';
 import 'package:quitanda_app/src/pages_routes/app_pages.dart';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:quitanda_app/src/services/validators.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({super.key});
@@ -76,17 +77,7 @@ class SignInPage extends StatelessWidget {
                         label: 'Email',
                         controller: emailController,
                         textType: TextInputType.emailAddress,
-                        validator: (email) {
-                          if (email == null || email.isEmpty) {
-                            return 'Email is required';
-                          }
-
-                          if (!email.isEmail) {
-                            return 'Invalid email';
-                          }
-
-                          return null;
-                        },
+                        validator: emailValidator,
                       ),
                       // Password text field
                       CustomTextField(
@@ -94,17 +85,7 @@ class SignInPage extends StatelessWidget {
                         label: 'Password',
                         isSecret: true,
                         controller: passwordController,
-                        validator: (password) {
-                          if (password == null || password.isEmpty) {
-                            return 'Password is required';
-                          }
-
-                          if (password.length < 7) {
-                            return 'Password must have at least 7 characters';
-                          }
-
-                          return null;
-                        },
+                        validator: passwordValidator,
                       ),
                       // Sign in button
                       SizedBox(

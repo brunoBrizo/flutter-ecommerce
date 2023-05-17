@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:quitanda_app/src/pages/common_widgets/custom_text_field.dart';
 import 'package:quitanda_app/src/config/custom_colors.dart';
+import 'package:quitanda_app/src/services/validators.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
@@ -68,23 +69,30 @@ class SignUpPage extends StatelessWidget {
                           const CustomTextField(
                             icon: Icons.email,
                             label: 'Email',
+                            validator: emailValidator,
                             textType: TextInputType.emailAddress,
                           ),
                           const CustomTextField(
                               icon: Icons.lock,
                               label: 'Password',
+                              validator: passwordValidator,
                               isSecret: true),
                           const CustomTextField(
-                              icon: Icons.person, label: 'Name'),
+                            icon: Icons.person,
+                            label: 'Fullname',
+                            validator: nameValidator,
+                          ),
                           CustomTextField(
                             icon: Icons.phone,
                             label: 'Phone',
                             textType: TextInputType.number,
+                            validator: phoneValidator,
                             inputFormatters: [phoneFormatter],
                           ),
                           CustomTextField(
                             icon: Icons.file_copy,
                             label: 'CPF',
+                            validator: cpfValidator,
                             textType: TextInputType.number,
                             inputFormatters: [cpfFormatter],
                           ),
@@ -95,7 +103,9 @@ class SignUpPage extends StatelessWidget {
                                     shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18.0),
                                 )),
-                                onPressed: () {},
+                                onPressed: () {
+                                  _formKey.currentState!.validate();
+                                },
                                 child: const Text(
                                   'Sign Up',
                                   style: TextStyle(
