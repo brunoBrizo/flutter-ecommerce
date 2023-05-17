@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quitanda_app/src/config/custom_colors.dart';
 import 'package:quitanda_app/src/pages/auth/controller/auth_controller.dart';
+import 'package:quitanda_app/src/pages/auth/view/components/forgot_password_dialog.dart';
 import 'package:quitanda_app/src/pages/common_widgets/app_name_widget.dart';
 import 'package:quitanda_app/src/pages/common_widgets/custom_text_field.dart';
 import 'package:quitanda_app/src/pages_routes/app_pages.dart';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:quitanda_app/src/services/utils_services.dart';
 import 'package:quitanda_app/src/services/validators.dart';
 
 class SignInPage extends StatelessWidget {
@@ -14,6 +15,7 @@ class SignInPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final UtilsServices utils = UtilsServices();
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +130,22 @@ class SignInPage extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                            onPressed: () {},
+                            onPressed: () async {
+                              final bool? result = await showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return ForgotPasswordDialog(
+                                      email: emailController.text);
+                                },
+                              );
+
+                              if (result ?? false) {
+                                utils.showToast(
+                                  msg:
+                                      'Check your inbox for the recovery email',
+                                );
+                              }
+                            },
                             child: Text(
                               'Forgot password?',
                               style: TextStyle(

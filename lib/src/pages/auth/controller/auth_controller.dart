@@ -104,4 +104,8 @@ class AuthController extends GetxController {
     await utils.removeLocalData(key: StorageKeys.token);
     Get.offAllNamed(PagesRoutes.signInRoute);
   }
+
+  Future<void> passwordRecovery(String email) async {
+    await repository.passwordRecovery(email);
+  }
 }
