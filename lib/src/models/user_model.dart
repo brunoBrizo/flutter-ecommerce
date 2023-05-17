@@ -28,4 +28,9 @@ class UserModel {
       _$UserModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
+
+  @override
+  String toString() {
+    return 'UserModel(name: $name, email: $email, phone: $phone, id: $id, password: $password, token: $token, cpf: $cpf)';
+  }
 }

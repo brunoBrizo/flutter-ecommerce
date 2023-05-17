@@ -7,6 +7,16 @@ import 'package:quitanda_app/src/services/http_manager.dart';
 class AuthRepository {
   final HttpManager _httpManager = HttpManager();
 
+  Future<AuthResult> signUp(UserModel user) async {
+    final result = await _httpManager.restRquest(
+      url: Endpoints.signUp,
+      method: HttpMethods.post,
+      body: user.toJson(),
+    );
+
+    return handleUserOrError(result);
+  }
+
   Future<AuthResult> signIn({
     required String email,
     required String password,
@@ -20,12 +30,7 @@ class AuthRepository {
       },
     );
 
-    if (result['result'] != null) {
-      final user = UserModel.fromJson(result['result']);
-      return AuthResult.success(user);
-    } else {
-      return AuthResult.error(authErrorsString(result['error']));
-    }
+    return handleUserOrError(result);
   }
 
   Future<AuthResult> validateToken(String token) async {
@@ -35,6 +40,10 @@ class AuthRepository {
       headers: {'X-Parse-Session-Token': token},
     );
 
+    return handleUserOrError(result);
+  }
+
+  AuthResult handleUserOrError(Map<dynamic, dynamic> result) {
     if (result['result'] != null) {
       final user = UserModel.fromJson(result['result']);
       return AuthResult.success(user);
