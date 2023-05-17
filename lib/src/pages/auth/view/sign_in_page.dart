@@ -75,6 +75,7 @@ class SignInPage extends StatelessWidget {
                         icon: Icons.email,
                         label: 'Email',
                         controller: emailController,
+                        textType: TextInputType.emailAddress,
                         validator: (email) {
                           if (email == null || email.isEmpty) {
                             return 'Email is required';

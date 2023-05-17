@@ -6,6 +6,8 @@ import 'package:quitanda_app/src/config/custom_colors.dart';
 class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
 
+  final _formKey = GlobalKey<FormState>();
+
   final cpfFormatter = MaskTextInputFormatter(
     mask: '###.###.###-##',
     filter: {'#': RegExp(r'[0-9]')},
@@ -58,42 +60,50 @@ class SignUpPage extends StatelessWidget {
                         color: Colors.white,
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(45.0))),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const CustomTextField(
-                            icon: Icons.email, label: 'Email'),
-                        const CustomTextField(
-                            icon: Icons.lock,
-                            label: 'Password',
-                            isSecret: true),
-                        const CustomTextField(
-                            icon: Icons.person, label: 'Name'),
-                        CustomTextField(
-                          icon: Icons.phone,
-                          label: 'Phone',
-                          inputFormatters: [phoneFormatter],
-                        ),
-                        CustomTextField(
-                          icon: Icons.file_copy,
-                          label: 'CPF',
-                          inputFormatters: [cpfFormatter],
-                        ),
-                        SizedBox(
-                            height: 50.0,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                              )),
-                              onPressed: () {},
-                              child: const Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                    fontSize: 18.0, color: Colors.white),
-                              ),
-                            ))
-                      ],
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const CustomTextField(
+                            icon: Icons.email,
+                            label: 'Email',
+                            textType: TextInputType.emailAddress,
+                          ),
+                          const CustomTextField(
+                              icon: Icons.lock,
+                              label: 'Password',
+                              isSecret: true),
+                          const CustomTextField(
+                              icon: Icons.person, label: 'Name'),
+                          CustomTextField(
+                            icon: Icons.phone,
+                            label: 'Phone',
+                            textType: TextInputType.number,
+                            inputFormatters: [phoneFormatter],
+                          ),
+                          CustomTextField(
+                            icon: Icons.file_copy,
+                            label: 'CPF',
+                            textType: TextInputType.number,
+                            inputFormatters: [cpfFormatter],
+                          ),
+                          SizedBox(
+                              height: 50.0,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                )),
+                                onPressed: () {},
+                                child: const Text(
+                                  'Sign Up',
+                                  style: TextStyle(
+                                      fontSize: 18.0, color: Colors.white),
+                                ),
+                              ))
+                        ],
+                      ),
                     ),
                   )
                 ],
